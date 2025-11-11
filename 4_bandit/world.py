@@ -49,4 +49,4 @@ class SequentialTwoArmedBandit:
         reward = self.arms[self.current_state][decision].pull(self.rng) # Simulation step
         next_state = self.transitions[(self.current_state, decision)] # Example: self.transitions[('A',0)]
         self.current_state = next_state
-        return reward
+        return reward, next_state

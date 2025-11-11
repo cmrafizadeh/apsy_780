@@ -39,6 +39,7 @@ class DoubleOZero:
         self.epsilon = epsilon
         self.states = states
         self.gamma = gamma
+        self.rng = np.random.default_rng()
         # self.q_values = {'A': np.zeros(2), 'B': np.zeros(2)}
         self.q_values = {state: np.zeros(2) for state in states}
 

@@ -2,6 +2,12 @@ from .encoder import WordEncoder
 from .similarity import Similarity
 from .attention import Attention
 from .attention import DotProductAttention
+import numpy as np
+import matplotlib.pyplot as plt
+
+def p_recall_from_similarity(similarity, gain=5.0, bias=-2.0):
+    x = gain * similarity + bias
+    return 1.0 / (1.0 + np.exp(-x))
 
 if __name__ == "__main__":
 
@@ -39,3 +45,34 @@ if __name__ == "__main__":
 
     print(f"Attention weights: {weights}")
     print(f"Context: {context}")
+
+    # Test delay between encoding and recall
+    test_delays = np.arange(0, 50, 5)
+    recall_results = []
+
+    for delay in test_delays:
+        # Simulate decay of list of encodings
+        decay_factor = np.exp(-delay / 10.0)
+
+        # Add gaussian noise to list of encodings scaled by decay factor
+        list_of_encodings = [e + np.random.normal(0.0, 0.1, e.shape) * decay_factor for e in list_of_encodings]
+
+        # Simulate recall
+        weights, context = dp_attention.attend(encoding_cue, list_of_encodings, list_of_encodings)
+
+        # Calculate similarity between context and encoding_cue
+        similarity = sim(context, encoding_cue)
+
+        # Convert similarity to probability of recall
+        p_recall = p_recall_from_similarity(similarity)
+
+        # Simulate recall
+        recall_result = np.random.random() < p_recall
+        recall_results.append(recall_result)
+
+    # Plot results
+    plt.plot(test_delays, recall_results)
+    plt.xlabel('Delay (ms)')
+    plt.ylabel('Recall probability')
+    plt.title('Recall probability as a function of delay')
+    plt.show()
