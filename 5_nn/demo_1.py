@@ -16,6 +16,11 @@ print("Tensor c: ", c)
 print("Tensor d: ", d)
 print("Tensor e: ", e)
 
-e.backward()
-print(f"Gradient of e wrt a = {a.grad}")
-print(f"Gradient of e wrt b = {b.grad}")
+# e.backward()
+# print(f"Gradient of e wrt a = {a.grad}")
+# print(f"Gradient of e wrt b = {b.grad}")
+
+
+c.backward()
+print(f"Gradient of c wrt a = {a.grad}")
+print(f"Gradient of c wrt b = {b.grad}")
